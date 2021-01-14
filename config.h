@@ -58,25 +58,31 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "st", NULL };
-static const char *webcmd[]  = { "brave-browser", NULL };
-static const char *editorcmd[]  = { "geany", NULL };
-static const char *ideacmd[]  = { "idea", NULL };
+static const char *termcmd[]  = { "tabbed", "st", "-w", NULL };
+static const char *webcmd[]  = { "tabbed", "-c", "surf", "-e", NULL };
+static const char *editorcmd[]  = { "tabbed", "-c", "st", "-e", "vim", "-w", NULL };
+static const char *javaidecmd[]  = { "idea", NULL };
+static const char *cidecmd[]  = { "clion", NULL };
 static const char *spotifycmd[]  = { "spotify", NULL };
+static const char *rsscmd[]  = { "tabbed", "-c", "st", "-e", "newsboat", "-w", NULL };
 static const char *mutecmd[] = { "pactl", "set-sink-mute", "0", "toggle", NULL };
 static const char *volupcmd[] = { "pactl", "set-sink-volume", "0", "+5%", NULL };
 static const char *voldowncmd[] = { "pactl", "set-sink-volume", "0", "-5%", NULL };
 static const char *brupcmd[] = {"xbacklight", "-inc", "10", NULL};
 static const char *brdowncmd[] = {"xbacklight", "-dec", "10", NULL};
+static const char *shutdown[] = {"sudo", "/sbin/shutdown", "now", "-P", NULL};
 
 static Key keys[] = {
 	/* modifier                     key        			function        argument */
-	{ MODKEY|ShiftMask,	        XK_r,      			spawn,          {.v = dmenucmd } },
+	{ MODKEY,       	            XK_r,      			spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_Escape, 			spawn,          {.v = shutdown } },
 	{ MODKEY|ShiftMask,             XK_t,	 			spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_w,	 			spawn,          {.v = webcmd } },
 	{ MODKEY|ShiftMask,             XK_e,	 			spawn,          {.v = editorcmd } },
-	{ MODKEY|ShiftMask,             XK_i,	 			spawn,          {.v = ideacmd } },
+	{ MODKEY|ShiftMask,             XK_j,	 			spawn,          {.v = javaidecmd } },
+	{ MODKEY|ShiftMask,             XK_c,	 			spawn,          {.v = cidecmd } },
 	{ MODKEY|ShiftMask,             XK_s,	 			spawn,          {.v = spotifycmd } },
+	{ MODKEY|ShiftMask,             XK_r,	 			spawn,          {.v = rsscmd } },
 	{ MODKEY,                       XK_b,      			togglebar,      {0} },
 	{ MODKEY,                       XK_j,      			focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      			focusstack,     {.i = -1 } },
@@ -86,7 +92,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_l,      			setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Return, 			zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    			view,           {0} },
-	{ MODKEY|ShiftMask,             XK_c,      			killclient,     {0} },
+	{ MODKEY,                       XK_c,      			killclient,     {0} },
 	{ MODKEY,                       XK_t,      			setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_f,      			setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      			setlayout,      {.v = &layouts[2]} },
@@ -112,7 +118,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_q,      			quit,           {0} },
+	{ MODKEY,                       XK_q,      			quit,           {0} },
 };
 
 /* button definitions */
