@@ -60,12 +60,12 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "tabbed", "-c", "st", "-w", NULL };
-static const char *webcmd[]  = { "brave-browser", NULL };//{ "tabbed", "-c", "surf", "-e", NULL };
-static const char *editorcmd[]  = { "echo", "\"nano\"", "|", "tabbed", "-c", "st", "-w" };
+static const char *webcmd[]  = { "tabbed", "-c", "surf", "-e", NULL };
+static const char *editorcmd[]  = { "tabbed", "-c", "st", "-e", "vim", "-w", NULL };
 static const char *javaidecmd[]  = { "idea", NULL };
 static const char *cidecmd[]  = { "clion", NULL };
 static const char *spotifycmd[]  = { "spotify", NULL };
-static const char *rsscmd[]  = { "echo", "\"newsboat\"", "|", "tabbed", "-c", "st", "-w" };
+static const char *rsscmd[]  = { "tabbed", "-c", "st", "-e", "newsboat", "-w", NULL };
 static const char *mutecmd[] = { "pactl", "set-sink-mute", "0", "toggle", NULL };
 static const char *volupcmd[] = { "pactl", "set-sink-volume", "0", "+5%", NULL };
 static const char *voldowncmd[] = { "pactl", "set-sink-volume", "0", "-5%", NULL };
@@ -77,25 +77,26 @@ static Key keys[] = {
 	/* modifier                     key        			function        argument */
 	{ MODKEY,       	            XK_r,      			spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Escape, 			spawn,          {.v = shutdown } },
-	{ MODKEY,                       XK_t,	 			spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_w,	 			spawn,          {.v = webcmd } },
-	{ MODKEY,                       XK_e,	 			spawn,          {.v = editorcmd } },
-	{ MODKEY,                       XK_j,	 			spawn,          {.v = javaidecmd } },
-	{ MODKEY,                       XK_c,	 			spawn,          {.v = cidecmd } },
-	{ MODKEY,                       XK_s,	 			spawn,          {.v = spotifycmd } },
+	{ MODKEY|ShiftMask,             XK_t,	 			spawn,          {.v = termcmd } },
+	{ MODKEY|ShiftMask,             XK_w,	 			spawn,          {.v = webcmd } },
+	{ MODKEY|ShiftMask,             XK_e,	 			spawn,          {.v = editorcmd } },
+	{ MODKEY|ShiftMask,             XK_j,	 			spawn,          {.v = javaidecmd } },
+	{ MODKEY|ShiftMask,             XK_c,	 			spawn,          {.v = cidecmd } },
+	{ MODKEY|ShiftMask,             XK_s,	 			spawn,          {.v = spotifycmd } },
+	{ MODKEY|ShiftMask,             XK_r,	 			spawn,          {.v = rsscmd } },
 	{ MODKEY,                       XK_b,      			togglebar,      {0} },
-	{ MODKEY|ShiftMask,             XK_j,      			focusstack,     {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_k,      			focusstack,     {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_i,      			incnmaster,     {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_d,      			incnmaster,     {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_h,      			setmfact,       {.f = -0.05} },
-	{ MODKEY|ShiftMask,             XK_l,      			setmfact,       {.f = +0.05} },
+	{ MODKEY,                       XK_j,      			focusstack,     {.i = +1 } },
+	{ MODKEY,                       XK_k,      			focusstack,     {.i = -1 } },
+	{ MODKEY,                       XK_i,      			incnmaster,     {.i = +1 } },
+	{ MODKEY,                       XK_d,      			incnmaster,     {.i = -1 } },
+	{ MODKEY,                       XK_h,      			setmfact,       {.f = -0.05} },
+	{ MODKEY,                       XK_l,      			setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Return, 			zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    			view,           {0} },
-	{ MODKEY|ShiftMask,             XK_c,      			killclient,     {0} },
-	{ MODKEY|ShiftMask,             XK_t,      			setlayout,      {.v = &layouts[0]} },
-	{ MODKEY|ShiftMask,             XK_f,      			setlayout,      {.v = &layouts[1]} },
-	{ MODKEY|ShiftMask,             XK_m,      			setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_c,      			killclient,     {0} },
+	{ MODKEY,                       XK_t,      			setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_f,      			setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_m,      			setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_space,  			setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  			togglefloating, {0} },
 	{ MODKEY,                       XK_0,      			view,           {.ui = ~0 } },
@@ -104,11 +105,11 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, 			focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  			tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, 			tagmon,         {.i = +1 } },
-	{ 0,			          XF86XK_AudioMute, 		spawn,		    {.v = mutecmd} },
-	{ 0,				      XF86XK_AudioLowerVolume, 	spawn,		    {.v = voldowncmd} },
-	{ 0,				      XF86XK_AudioRaiseVolume,	spawn,		    {.v = volupcmd} },
-	{ 0,				      XF86XK_MonBrightnessUp,	spawn,	    	{.v = brupcmd} },
-	{ 0,				      XF86XK_MonBrightnessDown,	spawn,		    {.v = brdowncmd} },
+	{ 0,				XF86XK_AudioMute, 		spawn,		{.v = mutecmd} },
+	{ 0,				XF86XK_AudioLowerVolume, 	spawn,		{.v = voldowncmd} },
+	{ 0,				XF86XK_AudioRaiseVolume,	spawn,		{.v = volupcmd} },
+	{ 0,				XF86XK_MonBrightnessUp,		spawn,		{.v = brupcmd} },
+	{ 0,				XF86XK_MonBrightnessDown,	spawn,		{.v = brdowncmd} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
@@ -118,7 +119,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_q,      			quit,           {0} },
+	{ MODKEY,                       XK_q,      			quit,           {0} },
 };
 
 /* button definitions */
