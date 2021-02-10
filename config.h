@@ -114,7 +114,7 @@ static Key keys[] = {
 	{ 0,				      XF86XK_MonBrightnessDown,	spawn,		    {.v = brdowncmd} },
 	{ 0,				      XF86XK_AudioPrev,	        spawn,		    {.v = mpvprevcmd} },
 	{ 0,				      XF86XK_AudioPlay,	        spawn,		    {.v = mpvtogglecmd} },
-	{ ShiftMask,		      XF86XK_AudioPlay,	        spawn,		    {.v = mpvstopcmd} },
+	{ MODKEY,   		      XF86XK_AudioPlay,	        spawn,		    {.v = mpvstopcmd} },
 	{ 0,				      XF86XK_AudioNext,	        spawn,		    {.v = mpvnextcmd} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
