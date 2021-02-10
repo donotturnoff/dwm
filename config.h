@@ -71,9 +71,10 @@ static const char *voldowncmd[] = { "pactl", "set-sink-volume", "0", "-5%", NULL
 static const char *brupcmd[] = {"xbacklight", "-inc", "10", NULL};
 static const char *brdowncmd[] = {"xbacklight", "-dec", "10", NULL};
 static const char *shutdown[] = {"sudo", "/sbin/shutdown", "now", "-P", NULL};
-static const char *mpvprevcmd[] = {"mpvcontrol", "prev", NULL};
-static const char *mpvtogglecmd[] = {"mpvcontrol", "toggle", NULL};
-static const char *mpvnextcmd[] = {"mpvcontrol", "next", NULL};
+static const char *mpvprevcmd[] = {"mpvctl", "prev", NULL};
+static const char *mpvtogglecmd[] = {"mpvctl", "toggle", NULL};
+static const char *mpvnextcmd[] = {"mpvctl", "next", NULL};
+static const char *mpvstopcmd[] = {"mpvctl", "stop", NULL};
 
 static Key keys[] = {
 	/* modifier                     key        			function        argument */
@@ -113,6 +114,7 @@ static Key keys[] = {
 	{ 0,				      XF86XK_MonBrightnessDown,	spawn,		    {.v = brdowncmd} },
 	{ 0,				      XF86XK_AudioPrev,	        spawn,		    {.v = mpvprevcmd} },
 	{ 0,				      XF86XK_AudioPlay,	        spawn,		    {.v = mpvtogglecmd} },
+	{ ShiftMask,		      XF86XK_AudioPlay,	        spawn,		    {.v = mpvstopcmd} },
 	{ 0,				      XF86XK_AudioNext,	        spawn,		    {.v = mpvnextcmd} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
